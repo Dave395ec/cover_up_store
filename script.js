@@ -50,20 +50,20 @@ description: "Yara by Lattafa Perfumes is a Amber Vanilla fragrance for women. Y
 }
 ];
 
-// Step 2: Creating out shopping cart.
-//This wi;; store all items the customer wants to buy.
+// Step 2: Creating out shopping cart.//
+//This wi;; store all items the customer wants to buy.//
 
 let cart = [];
 
-// Step 3: Get references to HTML elements
-// This connects our JS to soecific parts of our webpage
+// Step 3: Get references to HTML elements//
+// This connects our JS to soecific parts of our webpage//
 
 const cartCountElement = document.getElementById('cart-count');
 const productsGrid = document.getElementById('products-grid');
 const featuredProducts = document.getElementById('featured-products');
 
-// Step 4: Utility function to format prices
-// Make "R999.00" instead of just "999"
+// Step 4: Utility function to format prices//
+// Make "R999.00" instead of just "999"//
 
 function formatPrice(price) {
     return 'R' + price.toFixed(2);
@@ -72,10 +72,10 @@ function formatPrice(price) {
 console.log('JavaScript loaded successfully!');
 console.log('We have', products.length, 'products');
 
-// Function to create HTML for one product card
+// Function to create HTML for one product card//
 
 function createProductCard(product) {
-// Template literals (backticks) let us create HTML with JavaScript
+// Template literals (backticks) let us create HTML with JavaScript//
     return `
         <div class="product-card">
             <img src="${product.image}" alt="${product.name}" class="product-image">
@@ -98,7 +98,7 @@ function createProductCard(product) {
         </div>`
 }
 
-// Function to display products on the page
+// Function to display products on the page//
 function displayProducts(productsToShow = products) {
     if (productsGrid) {
         console.log('Display products... on products page');
@@ -111,12 +111,12 @@ function displayProducts(productsToShow = products) {
     }
 }
 
-//Function to add products to cart
+//Function to add products to cart//
 function addToCart(productId) {
     alert(`Product ${productId} added to cart!`);
 }
 
-//Function to view product details
+//Function to view product details//
 function viewProduct(productId) {
     const product 
         = products.find(prod => prod.id === productId);
@@ -125,23 +125,23 @@ function viewProduct(productId) {
         '\nDescription: ' + product.description);
 }
 
-//Function to handle filter button clicks
+//Function to handle filter button clicks//
 function setupFilters() {
     const filterButtons = document.querySelectorAll('.filter-btn');
 
     filterButtons.forEach(button => {
-        //Remove active from all buttons
+        //Remove active from all buttons//
         button.addEventListener('click', function(){
             filterButtons.forEach(btn => btn.classList.remove('active'));
-        //Add active class to the clicked button
+        //Add active class to the clicked button//
             this.classList.add('active');
-        //Get the category from the buttons data-category attribute
+        //Get the category from the buttons data-category attribute//
             const category = this.getAttribute('data-category');
         
-        //Filter products based on category
+        //Filter products based on category//
             let filteredProducts;
             if (category === 'all') {
-                filteredProducts = products // Show all products
+                filteredProducts = products // Show all products//
             } else {
                 filteredProducts = products.filter(product => product.category === category);
             }
@@ -153,26 +153,59 @@ function setupFilters() {
     });
 }
 
-//Waiting for the page to load, then display products
+//Waiting for the page to load, then display products//
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Page loaded, displaying products...');
     displayProducts();
     setupFilters();
 })
 
-// submission// Function to handle contact form submission
+//Function to update item quantity in cart//
+function updateQuantity(productId, newQuantity) {
+    console.log('Updating quantity for product', productId, 'to', newQuantity);
+
+    //Find the item in our cart//
+    const item = cart.find(item => item.id === productId);
+    if (item) {
+        if (newQuality <= 0) {
+            //If quantity is 0 or less, remove the item//
+            removeFromCart(productId);
+        } else {
+            //Update the quantity//
+            item.quantity = newQuantity;
+            updateCartCount();
+            saveCart();
+            displayCartItems();
+            updateCartSummary();
+        }
+    }
+}
+
+//Function to remove item from cart//
+function removeFromCart (productId) {
+    console.log('Removing product', productId, 'from cart');
+
+    //Filter out the item we want to remove//
+    cart = cart.filter(item => item.id !== productId);
+    updateCartCount();
+    saveCart();
+    displayCartItems();
+    showNotification('Item romved from cart');
+}
+
+// Function to handle contact form submission//
 function handleContactForm() {
     const contactForm = document.getElementById('contact-form');
 
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();//Stop the form from submitting nnormally
+            e.preventDefault();//Stop the form from submitting nnormally//
 
-            //Get form data
+            //Get form data//
             const formData = new FormData(contactForm);
             const data = Object.fromEntries(formData);
 
-            //Simple validation
+            //Simple validation//
             let isValid = true;
             const errors = [];
 
@@ -204,13 +237,13 @@ function handleContactForm() {
                 return;
             }
 
-            //Show loading state
+            //Show loading state//
             const submitBtn = contactForm.querySelector('button[type="submit"]');
             const originalText = submitBtn.textContect;
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
 
-            //Simulate sending the message
+            //Simulate sending the message//
             setTimeout(() => {
                 alert('Thank you for your message! We\'ll get back to you soon.');
                 contactForm.requestFullscreen(); //Clear form
@@ -228,16 +261,16 @@ document.addEventListener('DOMContentLoaded', function(){
     displayProducts();
     setupFilters();
 
-    //Cart page
+    //Cart page//
     if (document.getElementById('cart-items')) {
         displayCartItems();
         updateCartSummary();
     }
     
-    //Checkout page
+    //Checkout page//
     if (document.getElementById('checkout-form')) {
         if (cart.length === 0) {
-            AudioWorklet('Yor cart is empty!');
+            alert('Yor cart is empty!');
             window.location.href = 'products.html';
         }
 
@@ -265,7 +298,7 @@ document.addEventListener('DOMContentLoaded', function(){
             }
 
             if (!isValid) {
-                this.ariaValueText('Please fix the following errors:\n' + errors.join('\n'));
+                alert('Please fix the following errors:\n' + errors.join('\n'));
                 return;
             }
 
@@ -280,7 +313,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     showOrderSuccess(result);
                 }
             } catch (error) {
-                arlet('There was an error proccessing your order. Please try again.');
+                alert('There was an error proccessing your order. Please try again.');
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
             }
@@ -288,4 +321,4 @@ document.addEventListener('DOMContentLoaded', function(){
     }
     //Contact page
     handleContactFoem();
-})
+});
