@@ -39,7 +39,6 @@ category: "socks",
 image: "https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/35c04671-bbd8-43db-b7ec-455e4ae69b37/U+NK+EVERYDAY+CUSH+CRW+6PR+132.png",
 description: "Power through your workout with the Nike Everyday Cushioned Socks."
 },
-
 {
 id: 6,
 name: "Yara Lattafa EAU De Parfum 100ml",
@@ -47,6 +46,30 @@ price: 349,
 category: "perfumes",
 image: "https://dubaiperfumesa.co.za/cdn/shop/files/yara-lattafa-100ml-eau-de-parfum-288616_180x@2x.jpg?v=1713785247",
 description: "Yara by Lattafa Perfumes is a Amber Vanilla fragrance for women. Yara was launched in 2020."
+},
+{
+id: 7,
+name: "Lattafa Ramz Silver EAU De Parfum 100ml",
+price: 278,
+category: "perfumes",
+image: "https://assets.superbalistcdn.co.za/500x720/filters:quality(75):format(jpg)/3622984/original.jpg",
+description: "Perfume Ramz Silver Eau de Parfum by Lattafa is a smooth, elegant men's fragrance with a warm blend of citrus, vanilla, Tonka and heliotrope."
+},
+{
+id: 8,
+name: "Lattafa Asad EAU De Parfum 100ml",
+price: 450,
+category: "perfumes",
+image: "https://www.makro.co.za/asset/rukmini/fccp/832/832/ng-fkpublic-ui-user-fbbe/perfume/a/q/w/100-asad-box-1-eau-de-parfum-lattafa-men-original-imah5ghswgpwq4xy.jpeg?q=70",
+description: "Introducing Lattafa Asad Eau De Parfum, a captivating fragrance designed to exude confidence and sophistication."
+},
+{
+id: 9,
+name: "Nike Dunk Low Retro",
+price: 1299,
+category: "sneakers",
+image: "https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/79a35c4b-23ec-4d9e-a2f3-bb0049f96fbd/NIKE+DUNK+LOW+RETRO.png",
+description: "You can always count on a classic. The Dunk Low pairs its iconic colour-blocking with premium materials and plush padding for game-changing comfort that lasts."
 }
 ];
 
