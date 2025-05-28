@@ -183,6 +183,85 @@ document.addEventListener('DOMContentLoaded', function() {
     setupFilters();
 })
 
+//Function to update cart count display//
+function updateCartCount() {
+    //Calculate total number of items in cart//
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+    //update the cart count in navigation//
+    if (cartCountElement) {
+        cartCountElement.textContent = totalItems;
+    }
+
+    console.log('Cart now has', totalItems, 'items');
+}
+
+//Save cart to browser storage so it persists between page visits//
+function saveCart() {
+    const savedCart = localStorage.getItem('techVibe-cart');
+    if (savedCart) {
+        cart = JSON.parse(savedCart);
+        updateCartCount();
+        console.log('Loaded cart with', cart.length, 'different products');
+    }
+}
+
+//Add product to cart//
+function addToCart(productId) {
+    //Find product in our products array//
+    const product = products.find(p => p.id === productId);
+    if (!product) {
+        console.error('Product not found');
+        return;
+    }
+
+    //Check if product is already in cart//
+    const existingItem = cart.find(item => item.id === productId);
+
+    if (existingItem) {
+        //If it's already in cart, increase quantity//
+        existingItem.quantity += 1;
+        console.log('Increased quantity of', product.name, 'to', existingItem.quantity);
+    } else {
+        //If it's new, add it to cart//
+        cart.push({
+            id: product.id,
+            name: product.name,
+            image: product.image,
+            quantity: 1
+        });
+        console.log('Added', product.name, 'to cart');
+    }
+
+    updateCartCount();
+    saveCart();
+    showNotification(product.name + 'added to cart!');
+}
+
+//Show notification when item is added//
+function showNotification(message) {
+    //Create notification element//
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.textContent = message;
+
+    //Add to page//
+    document.body.appendChild(notification);
+
+    //Remove after 3 seconds//
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
+//Update our page load function//
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Page loaded, displaying products...');
+    loadCart(); //Load saved cart//
+    displayProducts();
+    setupFilters();
+});
+
 //Function to update item quantity in cart//
 function updateQuantity(productId, newQuantity) {
     console.log('Updating quantity for product', productId, 'to', newQuantity);

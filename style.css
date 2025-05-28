@@ -255,6 +255,32 @@ body {
     color: white;
 }
 
+/* Notification popup */
+.notification {
+    position: fixed;
+    top: 90px;
+    right: 20px;
+    background-color: #10b981;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0,1);
+    z-index: 200;
+    animation: slideIn 0.3s ease;
+}
+
+/* Animation for notification */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
 /* Cart page layout */
 .cart-layout {
     display: grid;
@@ -432,7 +458,6 @@ body {
         justify-content: space-between;
     }
 } 
-
 
 
 /* Contact page layout */
