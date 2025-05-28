@@ -198,12 +198,12 @@ function updateCartCount() {
 
 //Save cart to browser storage so it persists between page visits//
 function saveCart(){
-    localStorage.setItem('coverUp-cart', JSON.stringify(cart));
+    localStorage.setItem('coverup-cart', JSON.stringify(cart));
 }
 
 //Load cart from browser storage//
 function saveCart() {
-    const savedCart = localStorage.getItem('coverUp-cart');
+    const savedCart = localStorage.getItem('coverup-cart');
     if (savedCart) {
         cart = JSON.parse(savedCart);
         updateCartCount();
