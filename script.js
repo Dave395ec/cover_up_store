@@ -295,6 +295,111 @@ function removeFromCart (productId) {
     showNotification('Item romved from cart');
 }
 
+// Function to create HTML for cart item//
+function createCartItemHTML(item) {
+    return `
+    <div class="cart-item:>
+        <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+        <div class="cart-item-details">
+            <h4 class="cart-item-name">${item.name}</h4>
+            <p class="cart-item-price">${formatPrice(item.price)} each</p>
+        </div>
+        <div class="cart-item-controls">
+            <div class="quantity-controls">
+                <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                <span class="quantity-display">${item.quantity}</span>
+                <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+            </div>
+            <div class="cart-item-total">${formatPrice(item.price * item.quantity)}</div>
+            <button class="remove-btn" onclick="removeFromCart(${item.id})">Remove</button>
+        </div>
+    </div>
+    `;
+}
+
+// Function to display cart items//
+function displayCartItems() {
+    const cartItemsContainer = document.getElementById('cart-items');
+    const emptyCartElement = document.getElementById('empty-cart');
+
+    //Only run this code if we're on the cart page//
+    if (!cartItemsContainer) return;
+
+    if (cart.length === 0) {
+        //Show empty cart message//
+        cartItemsContainer.style.diplay= 'none';
+        if (emptyCartElement) emptyCartElement.style.display = 'block';
+        document.querySelector('.cart-summary').style.display = 'none';
+    } else {
+        //Show cart items//
+        cartItemsContainer.style.display = 'block';
+        if (emptyCartElement) emptyCartElement.style.display = 'none';
+        document.querySelector('.cart-summary').style.display = 'block';
+
+        //Create HTML for all cart items//
+        cartItemsContainer.innerHTML = cart.map(createCartItemHTML).join('');
+    }
+}
+
+// Function to calculate and update cart summary
+function updateCartSummary() {
+  // Calculate totals
+  const subtotal = cart.reduce((sum, item) => {
+    return sum + (item.price * item.quantity);
+  }, 0);
+
+  const shipping = subtotal > 0 ? 9.99 : 0;
+  const tax = subtotal * 0.08; // 8% tax
+  const total = subtotal + shipping + tax;
+
+  // Update the display
+  const subtotalElement = document.getElementById('cart-subtotal');
+  const shippingElement = document.getElementById('cart-shipping');
+  const taxElement = document.getElementById('cart-tax');
+  const totalElement = document.getElementById('cart-total');
+
+  if (subtotalElement) {
+    subtotalElement.textContent = formatPrice(subtotal);
+  }
+
+  if (shippingElement) {
+    shippingElement.textContent = formatPrice(shipping);
+  }
+
+  if (taxElement) {
+    taxElement.textContent = formatPrice(tax);
+  }
+
+  if (totalElement) {
+    totalElement.textContent = formatPrice(total);
+  }
+
+  console.log('Cart summary - Subtotal:', formatPrice(subtotal), 'Total:', formatPrice(total));
+}
+
+//Function to go to checkout//
+function goToCheckout() {
+    if (cart.length === 0) {
+        alert('Yor cart is empty!');
+        return;
+    }
+    window.location.href = "checkout.html";
+}
+
+//Update our page load function to handle cart page//
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Page loaded, displaying products...');
+    loadCart();
+    displayProducts();
+    setupFilters();
+
+    //If we're on the cart page, display cart items//
+    if (document.getElementById('cart-items')) {
+        displayCartItems();
+        updateCartSummary();
+    }
+});
+
 // Function to handle contact form submission//
 function handleContactForm() {
     const contactForm = document.getElementById('contact-form');
