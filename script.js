@@ -183,12 +183,12 @@ document.addEventListener('DOMContentLoaded', function() {
     setupFilters();
 })
 
-//Function to update cart count display//
+//Update cart count display//
 function updateCartCount() {
     //Calculate total number of items in cart//
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-    //update the cart count in navigation//
+    //Update the cart count in navigation//
     if (cartCountElement) {
         cartCountElement.textContent = totalItems;
     }
@@ -202,7 +202,7 @@ function saveCart(){
 }
 
 //Load cart from browser storage//
-function saveCart() {
+function loadCart() {
     const savedCart = localStorage.getItem('coverup-cart');
     if (savedCart) {
         cart = JSON.parse(savedCart);
@@ -232,6 +232,7 @@ function addToCart(productId) {
         cart.push({
             id: product.id,
             name: product.name,
+            price: product.price,
             image: product.image,
             quantity: 1
         });
