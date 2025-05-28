@@ -275,7 +275,7 @@ function updateQuantity(productId, newQuantity) {
     //Find the item in our cart//
     const item = cart.find(item => item.id === productId);
     if (item) {
-        if (newQuality <= 0) {
+        if (newQuantity <= 0) {
             //If quantity is 0 or less, remove the item//
             removeFromCart(productId);
         } else {
@@ -350,10 +350,7 @@ function displayCartItems() {
 // Function to calculate and update cart summary
 function updateCartSummary() {
   // Calculate totals
-  const subtotal = cart.reduce((sum, item) => {
-    return sum + (item.price * item.quantity);
-  }, 0);
-
+  const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const shipping = subtotal > 0 ? 9.99 : 0;
   const tax = subtotal * 0.08; // 8% tax
   const total = subtotal + shipping + tax;
@@ -379,7 +376,7 @@ function goToCheckout() {
         alert('Yor cart is empty!');
         return;
     }
-    window.location.href = "checkout.html";
+    window.location.href = 'checkout.html';
 }
 
 //Update our page load function to handle cart page//
@@ -410,6 +407,7 @@ function displayCheckoutItems() {
             </div>
         </div>
     `).join('');
+    
     checkoutItemsContainer.innerHTML = itemsHTML;
 }
 
