@@ -358,24 +358,14 @@ function updateCartSummary() {
   const taxElement = document.getElementById('cart-tax');
   const totalElement = document.getElementById('cart-total');
 
-  if (subtotalElement) {
-    subtotalElement.textContent = formatPrice(subtotal);
-  }
-
-  if (shippingElement) {
-    shippingElement.textContent = formatPrice(shipping);
-  }
-
-  if (taxElement) {
-    taxElement.textContent = formatPrice(tax);
-  }
-
-  if (totalElement) {
-    totalElement.textContent = formatPrice(total);
+  if (subtotalElement) subtotalElement.textContent = formatPrice(subtotal);
+  if (shippingElement) shippingElement.textContent = formatPrice(shipping);
+  if (taxElement) taxElement.textContent = formatPrice(tax);
+  if (totalElement) totalElement.textContent = formatPrice(total);
   }
 
   console.log('Cart summary - Subtotal:', formatPrice(subtotal), 'Total:', formatPrice(total));
-}
+
 
 //Function to go to checkout//
 function goToCheckout() {
@@ -397,6 +387,160 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('cart-items')) {
         displayCartItems();
         updateCartSummary();
+    }
+});
+
+// Function to display checkout items//
+function displayCheckoutItems() {
+    const checkoutItemsContainer = document.getElementById('checkout-items');
+    if (!checkoutItemsContainer || cart.length === 0) return;
+
+    const itemsHTML = cart.map(item => `
+        <div class="checkout-item">
+            <img src="${item.image}" alt="${item.name}" class="checkout-item-image">
+            <div class="checkout-item-details">
+                <div class="checkout-item-name">${item.name}</div>
+                <div class="checkout-item-quantity">Qty: ${item.quantity}</div>
+            </div>
+        </div>
+    `).join('');
+    checkoutItemsContainer.innerHTML = itemsHTML;
+}
+
+//Fundtion to update checkout summary//
+function updateCheckoutSummary() {
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const shipping = subtotal > 0 ? 9.99 : 0;
+    const tax = subtotal * 0.08; //8% tax
+    const total = subtotal + shipping + tax;
+
+    // Updating checkout summary elects//
+    const subtotalElement = document.getElementById('cart-subtotal');
+    const shippingElement = document.getElementById('cart-shipping');
+    const taxElement = document.getElementById('cart-tax');
+    const totalElement = document.getElementById('cart-total');
+
+    if (subtotalElement) subtotalElement.textContent = formatPrice(subtotal);
+    if (shippingElement) shippingElement.textContent = formatPrice(shipping);
+    if (taxElement) taxElement.textContent = formatPrice(tax);
+    if (totalElement) totalElement.textContent = formatPrice(total);
+}
+
+// Simple form validation functions//
+function validateEmail(email) {
+    //Check of email contains @ and .
+    return email.includes('@') && email.include('.');
+}
+
+function validateCardNumber(cardNumber) {
+    //Remove spaces and check if it's 16 digits//
+    const cleanNumber = cardNumber.replace(/\s/g, '');
+    return /^\d{16}$/.test(cleanNumber);
+}
+
+//Function to process ther order (simulate)//
+function processOrder(fomData) {
+    //In a real website, this would send data to a server//
+    //For now, we'll just simulate it with a delay//
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            //Clear the cart after successful order//
+            cart = [];
+            updateCartCount();
+            saveCart();
+            resolve({
+                success: true,
+                orderNumber: 'TV-' + Date.now(),
+                message: 'Your order has been plaed successfully!'
+            });
+        }, 2000);
+    });
+}
+
+//Funtion to show order success
+function showOrderSuccess(orderInfo) {
+    const container = document.querySelector('.container');
+    container.innerHTML = `
+    <div class="success-message">
+        <h2>🎉 Order Placed Successfully!</h2>
+        <p>Thank you for your purchase!</p>
+        <p><strong>Order Number:</strong> ${orderInfo.orderNumber}</p>
+        <p>You will receive a confirmation email shortly.</p>
+        <a href="index.html" class="btn btn-primary">Continue Shopping</a>
+    </div>
+    `;
+}
+
+//update our page load function to handle checkout//
+docunent/addEventListener('DOMContentLoaded', function() {
+    console.log('Page loaded...');
+    loadCart();
+    displayProducts();
+    setupFilters();
+
+    //Cart page//
+    if (document.getEventById('cart-items')) {
+        displayCartItems();
+        updateCartSummary();
+    }
+
+    //Checkout page
+    if (document.getElementById('checkout-form')) {
+        //Redirect if cart is empty//
+        if (cart.length === 0) {
+            alert('Your cart is empty!');
+            window.location.href = 'products.html';
+            return;
+        }
+
+        displayCheckoutItems();
+        updateCheckoutSummary();
+
+        //Handle form submission//
+        const checkoutForm = document.getElementById('checkout-form');
+        checkoutForm.addEventListener('submit', async function(e) {
+            e.preventDefault(); //Prevent normal form submission//
+
+            //get form data//
+            const formData = new FormData(checkoutForm);
+            const data = Object.fromEntries(formData);
+
+            //Simple validation//
+            let isValid = true;
+            const errors = [];
+
+            if (!validateEmail(data.email)) {
+                errors.push('Please enter a valid email address');
+                isValid = false;
+            }
+
+            if (!validateCardNumber(data.cardNumber)) {
+                errors.push('Please enter a valid 15-digit card number');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                alert('Please fix the following errors:\n' + errors.join('\n'));
+                return;
+            }
+
+            //Show loading state//
+            const submitBtn = checkoutForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Processing...';
+            submitBtn.disabled = true;
+
+            try {
+                const result = await processOrder(data);
+                if (result.success) {
+                    shoeOrderSuccess(result);
+                }
+            } catch (error) {
+                alert('There was an error processing your order. Please try again.');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
     }
 });
 
