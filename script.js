@@ -362,12 +362,13 @@ function updateCartSummary() {
   const totalElement = document.getElementById('cart-total');
 
   if (subtotalElement) subtotalElement.textContent = formatPrice(subtotal);
-  if (shippingElement) shippingElement.textContent = formatPrice(shipping);
+  if (shippingElement) shippingElement.textContent = shipping > 0 ? formatPrice(shipping) : '$0.00';
   if (taxElement) taxElement.textContent = formatPrice(tax);
   if (totalElement) totalElement.textContent = formatPrice(total);
+
+    console.log('Cart summary - Subtotal:', formatPrice(subtotal), 'Total:', formatPrice(total));
   }
 
-  console.log('Cart summary - Subtotal:', formatPrice(subtotal), 'Total:', formatPrice(total));
 
 
 //Function to go to checkout//
@@ -476,14 +477,14 @@ function showOrderSuccess(orderInfo) {
 }
 
 //update our page load function to handle checkout//
-docunent/addEventListener('DOMContentLoaded', function() {
+document/addEventListener('DOMContentLoaded', function() {
     console.log('Page loaded...');
     loadCart();
     displayProducts();
     setupFilters();
 
     //Cart page//
-    if (document.getEventById('cart-items')) {
+    if (document.getElementById('cart-items')) {
         displayCartItems();
         updateCartSummary();
     }
@@ -537,7 +538,7 @@ docunent/addEventListener('DOMContentLoaded', function() {
             try {
                 const result = await processOrder(data);
                 if (result.success) {
-                    shoeOrderSuccess(result);
+                    showOrderSuccess(result);
                 }
             } catch (error) {
                 alert('There was an error processing your order. Please try again.');
@@ -675,5 +676,5 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     }
     //Contact page
-    handleContactFoem();
+    handleContactForm();
 });
