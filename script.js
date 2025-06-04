@@ -406,6 +406,7 @@ function displayCheckoutItems() {
                 <div class="checkout-item-name">${item.name}</div>
                 <div class="checkout-item-quantity">Qty: ${item.quantity}</div>
             </div>
+            <div class="checkout-item-price">Price:${(item.price * item.quantity).toFixed(2)}</div>
         </div>
     `).join('');
     
@@ -419,11 +420,11 @@ function updateCheckoutSummary() {
     const tax = subtotal * 0.08; //8% tax
     const total = subtotal + shipping + tax;
 
-    // Updating checkout summary elects//
-    const subtotalElement = document.getElementById('cart-subtotal');
-    const shippingElement = document.getElementById('cart-shipping');
-    const taxElement = document.getElementById('cart-tax');
-    const totalElement = document.getElementById('cart-total');
+    // Updating checkout summary elements//
+    const subtotalElement = document.getElementById('checkout-subtotal');
+    const shippingElement = document.getElementById('checkout-shipping');
+    const taxElement = document.getElementById('checkout-tax');
+    const totalElement = document.getElementById('checkout-total');
 
     if (subtotalElement) subtotalElement.textContent = formatPrice(subtotal);
     if (shippingElement) shippingElement.textContent = formatPrice(shipping);
