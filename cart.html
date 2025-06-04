@@ -14,7 +14,7 @@
                 <li><a href="index.html">Home</a></li>
                 <li><a href="products.html">Products</a></li>
                 <li><a href="contact.html">Contact</a></li>
-                <li><a href="cart.html" class="cart-link">Cart (<span id="cart-count">0</span)></a></li>
+                <li><a href="cart.html" class="cart-link">Cart (<span id="cart-count">0</span>)</a></li>
             </ul>
         </div>
     </nav>
@@ -34,14 +34,14 @@
                     <div class="summary-card">
                         <h3>Order Summary</h3>
                         <div class="summary-row">
-                            <span>Subtotal</span>
-                            <span id="cart-shipping">R0.00</span>
+                            <span>Subtotal:</span>
+                            <span id="cart-subtotal">R0.00</span>
                         </div>
                         <div class="summary-row">
                             <span>Shipping:</span>
                             <span id="cart-shipping">R9.99</span>
                         </div>
-                        <div class="summart-row">
+                        <div class="summary-row">
                             <span>Tax</span>
                             <span id="cart-tax">R0.00</span>
                         </div>
@@ -49,12 +49,10 @@
                             <span>Total</span>
                             <span id="cart-total">R0.00</span>
                         </div>
-                        <button class="btn btn-primary full-width" onclick="goToCheckout">
-                            Proceed to Checkout
-                        </button>
-                        <a href="products.html" class="btn btn-secondary fullwidth">
-                            Continue Shopping
-                        </a>
+
+                        <button class="btn btn-primary full-width" onclick="goToCheckout()">Proceed to Checkout</button>
+                            
+                        <a href="products.html" class="btn btn-secondary full-width">Continue Shopping</a>
                     </div>
                 </div>
             </div>
