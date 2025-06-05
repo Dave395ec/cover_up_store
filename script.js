@@ -12,7 +12,7 @@ id: 2,
 name: "Nike Everyday Cushion Crew White",
 price: 299,
 category: "socks",
-image: "https://thefoschini.vtexassets.com/arquivos/ids/179149838-1200-1600?v=638760053361870000&width=1200&height=1600&aspect=true",
+image: "https://res.cloudinary.com/moresport/image/upload/a_0,c_fill,f_auto,q_auto:good,w_690/v1575961299/assets/1172420_1172420-WB22_001.jpg",
 description: "Power through your workout with the Nike Everyday Cushioned Socks."
 },
 {
